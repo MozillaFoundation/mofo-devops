@@ -1,0 +1,87 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+
+  "Description": "teach.mozilla.org stack",
+
+  "Parameters": {
+    "IAMCertificateId": {
+      "Type": "String"
+    }
+  },
+
+  "Resources": {
+    "S3Bucket": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "app",
+            "Value": "teach"
+          },
+          {
+            "Key": "env",
+            "Value": "production"
+          },
+          {
+            "Key": "project",
+            "Value": "learning"
+          }
+        ],
+        "WebsiteConfiguration": {
+          "ErrorDocument": "index.html",
+          "IndexDocument": "error.html"
+        }
+      }
+    },
+    "Cloudfront": {
+      "Type": "AWS::CloudFront::Distribution",
+      "Properties": {
+        "DistributionConfig": {
+          "Aliases": [ "teach.mozilla.org" ],
+          "DefaultCacheBehavior": {
+            "ForwardedValues": {
+              "QueryString": false
+            },
+            "TargetOriginId": "teach.mozilla.org-s3-website",
+            "ViewerProtocolPolicy": "redirect-to-https"
+          },
+          "DefaultRootObject" : "index.html",
+          "Enabled": true,
+          "Origins": [
+            {
+              "CustomOriginConfig": {
+                "OriginProtocolPolicy": "http-only"
+              },
+              "DomainName": {
+                "Fn::Join": ["", [{"Ref":"S3Bucket"}, ".s3-website-", {"Ref": "AWS::Region"}, ".amazonaws.com"]]
+              },
+              "Id": "teach.mozilla.org-s3-website"
+            }
+          ],
+          "ViewerCertificate": {
+            "IamCertificateId": {
+              "Ref": "IAMCertificateId"
+            },
+            "MinimumProtocolVersion": "TLSv1",
+            "SslSupportMethod": "sni-only"
+          }
+        }
+      }
+    }
+  },
+
+  "Outputs": {
+    "S3BucketWebsiteURL": {
+      "Value": {
+        "Fn::GetAtt": [ "S3Bucket", "WebsiteURL" ]
+      },
+      "Description": "URL for website hosted on S3"
+    },
+    "CloudfrontURL": {
+      "Value": {
+        "Fn::GetAtt": [ "Cloudfront", "DomainName" ]
+      },
+      "Description": "Url for Cloudfront distribution"
+    }
+  }
+}
