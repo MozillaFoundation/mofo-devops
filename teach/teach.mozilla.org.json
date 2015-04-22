@@ -28,8 +28,7 @@
           }
         ],
         "WebsiteConfiguration": {
-          "ErrorDocument": "index.html",
-          "IndexDocument": "error.html"
+          "IndexDocument": "index.html"
         }
       }
     },
