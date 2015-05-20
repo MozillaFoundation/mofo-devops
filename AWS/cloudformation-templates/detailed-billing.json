@@ -1,0 +1,79 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+
+  "Description": "Detailed billing reports storage",
+
+  "Resources": {
+    "S3Bucket": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "application",
+            "Value": "detailed billing"
+          },
+          {
+            "Key": "environment",
+            "Value": "production"
+          },
+          {
+            "Key": "project",
+            "Value": "ops"
+          }
+        ],
+        "VersioningConfiguration": {
+          "Status": "Enabled"
+        }
+      }
+    },
+    "S3Policy": {
+      "Type": "AWS::S3::BucketPolicy",
+      "Properties": {
+        "Bucket": {
+          "Ref": "S3Bucket"
+        },
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": ["", ["arn:aws:iam::", {"Ref": "AWS::AccountId"}, ":root"]]
+                }
+              },
+              "Action": [
+                "s3:GetBucketAcl",
+                "s3:GetBucketPolicy"
+              ],
+              "Resource": {
+                "Fn::Join": ["", ["arn:aws:s3:::", {"Ref": "S3Bucket"}]]
+              }
+            },
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": ["", ["arn:aws:iam::", {"Ref": "AWS::AccountId"}, ":root"]]
+                }
+              },
+              "Action": "s3:PutObject",
+              "Resource": {
+                "Fn::Join": ["", ["arn:aws:s3:::", {"Ref": "S3Bucket"}, "/*"]]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+
+  "Outputs": {
+    "BillingStorageBucket": {
+      "Value": {
+        "Ref": "S3Bucket"
+      },
+      "Description": "Detailed billing reports storage"
+    }
+  }
+}

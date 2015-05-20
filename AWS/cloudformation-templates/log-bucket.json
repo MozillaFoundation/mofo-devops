@@ -1,0 +1,41 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+
+  "Description": "Log storage",
+
+  "Resources": {
+    "S3Bucket": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "AccessControl": "LogDeliveryWrite",
+        "Tags": [
+          {
+            "Key": "application",
+            "Value": "log storage"
+          },
+          {
+            "Key": "environment",
+            "Value": "production"
+          },
+          {
+            "Key": "project",
+            "Value": "ops"
+          }
+        ],
+        "VersioningConfiguration": {
+          "Status": "Enabled"
+        }
+      }
+    }
+  },
+
+  "Outputs": {
+    "LoggingBucket": {
+      "Value": {
+        "Ref": "S3Bucket"
+      },
+      "Description": "Log storage"
+    }
+  }
+
+}

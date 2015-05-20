@@ -1,0 +1,70 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+
+  "Description": "Heroku App with SSL",
+
+  "Parameters": {
+    "CloudfrontAliases": {
+      "Type": "CommaDelimitedList"
+    },
+    "HerokuAppURL": {
+      "Type": "String"
+    },
+    "IAMCertificateId": {
+      "Type": "String"
+    }
+  },
+
+  "Resources": {
+    "Cloudfront": {
+      "Type": "AWS::CloudFront::Distribution",
+      "Properties": {
+        "DistributionConfig": {
+          "Aliases": {
+            "Ref": "CloudfrontAliases"
+          },
+          "DefaultCacheBehavior": {
+            "AllowedMethods": ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"],
+            "ForwardedValues": {
+              "Cookies": {
+                "Forward": "all"
+              },
+              "Headers": ["Authorization"],
+              "QueryString": true
+            },
+            "TargetOriginId": "herokuapp",
+            "ViewerProtocolPolicy": "redirect-to-https"
+          },
+          "Enabled": true,
+          "Origins": [
+            {
+              "CustomOriginConfig": {
+                "OriginProtocolPolicy": "match-viewer"
+              },
+              "DomainName": {
+                "Ref": "HerokuAppURL"
+              },
+              "Id": "herokuapp"
+            }
+          ],
+          "ViewerCertificate": {
+            "IamCertificateId": {
+              "Ref": "IAMCertificateId"
+            },
+            "MinimumProtocolVersion": "TLSv1",
+            "SslSupportMethod": "sni-only"
+          }
+        }
+      }
+    }
+  },
+
+  "Outputs": {
+    "CloudfrontURL": {
+      "Value": {
+        "Fn::GetAtt": [ "Cloudfront", "DomainName" ]
+      },
+      "Description": "URL for Cloudfront distribution"
+    }
+  }
+}
