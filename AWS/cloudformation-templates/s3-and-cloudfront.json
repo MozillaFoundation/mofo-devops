@@ -100,7 +100,7 @@
           "Statement": [{
             "Action": ["s3:GetObject"],
             "Effect": "Allow",
-            "Resource": { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "S3Bucket" }, "/*"]]},
+            "Resource": { "Fn::Join": ["", ["arn:aws:s3:::", { "Ref": "S3Bucket" }, "/*"]]},
             "Principal": "*"
           }]
         }
@@ -114,7 +114,7 @@
             "Fn::If": [
               "UseCloudfrontAliases",
               {"Ref": "CloudfrontAliases"},
-              {"Ref" : "AWS::NoValue"}
+              {"Ref": "AWS::NoValue"}
             ]
           },
           "DefaultCacheBehavior": {
@@ -124,7 +124,7 @@
             "TargetOriginId": "s3-website",
             "ViewerProtocolPolicy": "redirect-to-https"
           },
-          "DefaultRootObject" : "index.html",
+          "DefaultRootObject": "index.html",
           "Enabled": true,
           "Logging": {
             "IncludeCookies": "false",
@@ -154,7 +154,7 @@
             "CloudFrontDefaultCertificate": {
               "Fn::If": [
                 "UseCustomSSLCertificate",
-                {"Ref" : "AWS::NoValue"},
+                {"Ref": "AWS::NoValue"},
                 true
               ]
             },
@@ -162,21 +162,21 @@
               "Fn::If": [
                 "UseCustomSSLCertificate",
                 {"Ref": "IAMCertificateId"},
-                {"Ref" : "AWS::NoValue"}
+                {"Ref": "AWS::NoValue"}
               ]
             },
             "MinimumProtocolVersion": {
               "Fn::If": [
                 "UseCustomSSLCertificate",
                 "TLSv1",
-                {"Ref" : "AWS::NoValue"}
+                {"Ref": "AWS::NoValue"}
               ]
             },
             "SslSupportMethod": {
               "Fn::If": [
                 "UseCustomSSLCertificate",
                 "sni-only",
-                {"Ref" : "AWS::NoValue"}
+                {"Ref": "AWS::NoValue"}
               ]
             }
           }
@@ -197,11 +197,11 @@
             "Statement": [{
               "Action": ["s3:DeleteObject", "s3:GetObject", "s3:PutObject"],
               "Effect": "Allow",
-              "Resource": { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "S3Bucket" }, "/*" ]]}
+              "Resource": { "Fn::Join": ["", ["arn:aws:s3:::", { "Ref": "S3Bucket" }, "/*" ]]}
             }, {
               "Action": ["s3:ListBucket"],
               "Effect": "Allow",
-              "Resource": { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "S3Bucket" }]]}
+              "Resource": { "Fn::Join": ["", ["arn:aws:s3:::", { "Ref": "S3Bucket" }]]}
             }]
           }
         }]
