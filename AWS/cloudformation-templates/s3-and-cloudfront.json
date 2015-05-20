@@ -110,7 +110,10 @@
           "RedirectAllRequestsTo": {
             "Fn::If": [
               "UseRedirectURL",
-              {"Ref": "RedirectURL"},
+              {
+                "HostName": {"Ref": "RedirectURL"},
+                "Protocol": "https"
+              },
               {"Ref": "AWS::NoValue"}
             ]
           }
