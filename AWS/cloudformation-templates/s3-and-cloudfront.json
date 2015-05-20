@@ -8,6 +8,10 @@
       "Type": "CommaDelimitedList",
       "Description": "DNS aliases for the Cloudfront distribution"
     },
+    "RedirectURL": {
+      "Type": "String",
+      "Description": "URL to redirect all requests to"
+    },
     "IAMCertificateId": {
       "Type": "String",
       "Description": "Custom SSL certificate to use with Cloudfront distribution. Required if you're setting CloudfrontAliases"
@@ -66,6 +70,9 @@
     },
     "UseCustomSSLCertificate": {
       "Fn::Not": [{"Fn::Equals": [{"Ref": "IAMCertificateId"}, ""]}]
+    },
+    "UseRedirectURL": {
+      "Fn::Not": [{"Fn::Equals": [{"Ref": "RedirectURL"}, ""]}]
     }
   },
 
@@ -85,7 +92,28 @@
           "Status": "Enabled"
         },
         "WebsiteConfiguration": {
-          "IndexDocument": "index.html"
+          "IndexDocument": {
+            "Fn::If": [
+              "UseRedirectURL",
+              {"Ref": "AWS::NoValue"},
+              "index.html"
+
+            ]
+          },
+          "ErrorDocument": {
+            "Fn::If": [
+              "UseRedirectURL",
+              {"Ref": "AWS::NoValue"},
+              "error.html"
+            ]
+          },
+          "RedirectAllRequestsTo": {
+            "Fn::If": [
+              "UseRedirectURL",
+              {"Ref": "RedirectURL"},
+              {"Ref": "AWS::NoValue"}
+            ]
+          }
         }
       }
     },
