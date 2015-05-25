@@ -8,9 +8,13 @@
       "Type": "CommaDelimitedList",
       "Description": "DNS aliases for the Cloudfront distribution"
     },
-    "RedirectURL": {
+    "RedirectHost": {
       "Type": "String",
-      "Description": "URL to redirect all requests to"
+      "Description": "Host to redirect client to"
+    },
+    "RedirectPath": {
+      "Type": "String",
+      "Description": "Path on host to redirect client to. Don't put / at beginning"
     },
     "IAMCertificateId": {
       "Type": "String",
@@ -72,7 +76,7 @@
       "Fn::Not": [{"Fn::Equals": [{"Ref": "IAMCertificateId"}, ""]}]
     },
     "UseRedirectURL": {
-      "Fn::Not": [{"Fn::Equals": [{"Ref": "RedirectURL"}, ""]}]
+      "Fn::Not": [{"Fn::Equals": [{"Ref": "RedirectHost"}, ""]}]
     }
   },
 
@@ -92,28 +96,19 @@
           "Status": "Enabled"
         },
         "WebsiteConfiguration": {
-          "IndexDocument": {
+          "IndexDocument": "index.html",
+          "ErrorDocument": "error.html",
+          "RoutingRules": {
             "Fn::If": [
               "UseRedirectURL",
-              {"Ref": "AWS::NoValue"},
-              "index.html"
-
-            ]
-          },
-          "ErrorDocument": {
-            "Fn::If": [
-              "UseRedirectURL",
-              {"Ref": "AWS::NoValue"},
-              "error.html"
-            ]
-          },
-          "RedirectAllRequestsTo": {
-            "Fn::If": [
-              "UseRedirectURL",
-              {
-                "HostName": {"Ref": "RedirectURL"},
-                "Protocol": "https"
-              },
+              [{
+                "RedirectRule": {
+                  "HostName": {"Ref": "RedirectHost"},
+                  "HttpRedirectCode": "301",
+                  "Protocol": "https",
+                  "ReplaceKeyWith": {"Ref": "RedirectPath"}
+                }
+              }],
               {"Ref": "AWS::NoValue"}
             ]
           }
