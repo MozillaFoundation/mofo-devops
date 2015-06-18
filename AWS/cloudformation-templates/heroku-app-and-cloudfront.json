@@ -29,7 +29,7 @@
               "Cookies": {
                 "Forward": "all"
               },
-              "Headers": ["Authorization"],
+              "Headers": ["Accept-Language", "Authorization", "Origin", "Referer", "X-CSRF-Token"],
               "QueryString": true
             },
             "TargetOriginId": "herokuapp",
