@@ -1,17 +1,65 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
 
-  "Description": "Heroku App with SSL",
+  "Description": "Application with SSL",
 
   "Parameters": {
     "CloudfrontAliases": {
-      "Type": "CommaDelimitedList"
+      "Type": "CommaDelimitedList",
+      "Description": "DNS aliases for the Cloudfront distribution"
     },
-    "HerokuAppURL": {
-      "Type": "String"
+    "ApplicationURL": {
+      "Type": "String",
+      "Description": "Hostname of the application server. Don't add the protocol here"
     },
     "IAMCertificateId": {
-      "Type": "String"
+      "Type": "String",
+      "Description": "Custom SSL certificate to use with Cloudfront distribution. Required if you're setting CloudfrontAliases"
+    },
+    "LogBucketName": {
+      "Type": "String",
+      "Description": "S3 bucket to deliver access logs to"
+    }
+  },
+
+  "Mappings": {
+    "S3RegionMap": {
+      "ap-northeast-1": {
+        "endpoint": "s3-ap-northeast-1.amazonaws.com"
+      },
+      "ap-southeast-1": {
+        "endpoint": "s3-ap-southeast-1.amazonaws.com"
+      },
+      "ap-southeast-2": {
+        "endpoint": "s3-ap-southeast-2.amazonaws.com"
+      },
+      "eu-central-1": {
+        "endpoint": "s3-eu-central-1.amazonaws.com"
+      },
+      "eu-west-1": {
+        "endpoint": "s3-eu-west-1.amazonaws.com"
+      },
+      "sa-east-1": {
+        "endpoint": "s3-sa-east-1.amazonaws.com"
+      },
+      "us-east-1": {
+        "endpoint": "s3.amazonaws.com"
+      },
+      "us-west-1": {
+        "endpoint": "s3-us-west-1.amazonaws.com"
+      },
+      "us-west-2": {
+        "endpoint": "s3-us-west-2.amazonaws.com"
+      }
+    }
+  },
+
+  "Conditions": {
+    "UseCloudfrontAliases": {
+      "Fn::Not": [{"Fn::Equals": [{"Fn::Join": ["", {"Ref": "CloudfrontAliases"}]}, ""]}]
+    },
+    "UseCustomSSLCertificate": {
+      "Fn::Not": [{"Fn::Equals": [{"Ref": "IAMCertificateId"}, ""]}]
     }
   },
 
@@ -21,7 +69,11 @@
       "Properties": {
         "DistributionConfig": {
           "Aliases": {
-            "Ref": "CloudfrontAliases"
+            "Fn::If": [
+              "UseCloudfrontAliases",
+              {"Ref": "CloudfrontAliases"},
+              {"Ref": "AWS::NoValue"}
+            ]
           },
           "DefaultCacheBehavior": {
             "AllowedMethods": ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"],
@@ -32,27 +84,64 @@
               "Headers": ["Accept-Language", "Authorization", "Origin", "Referer", "X-CSRF-Token"],
               "QueryString": true
             },
-            "TargetOriginId": "herokuapp",
+            "MinTTL": "0",
+            "TargetOriginId": "appserver",
             "ViewerProtocolPolicy": "redirect-to-https"
           },
           "Enabled": true,
+          "Logging": {
+            "IncludeCookies": "false",
+            "Bucket": {
+              "Fn::Join": ["", [
+                {"Ref": "LogBucketName"},
+                ".",
+                {"Fn::FindInMap": ["S3RegionMap", {"Ref": "AWS::Region"}, "endpoint"]}
+              ]]
+            },
+            "Prefix": {
+              "Fn::Join": ["", [{"Ref": "AWS::StackName"}, "/cf/"]]
+            }
+          },
           "Origins": [
             {
               "CustomOriginConfig": {
                 "OriginProtocolPolicy": "match-viewer"
               },
               "DomainName": {
-                "Ref": "HerokuAppURL"
+                "Ref": "ApplicationURL"
               },
-              "Id": "herokuapp"
+              "Id": "appserver"
             }
           ],
           "ViewerCertificate": {
-            "IamCertificateId": {
-              "Ref": "IAMCertificateId"
+            "CloudFrontDefaultCertificate": {
+              "Fn::If": [
+                "UseCustomSSLCertificate",
+                {"Ref": "AWS::NoValue"},
+                true
+              ]
             },
-            "MinimumProtocolVersion": "TLSv1",
-            "SslSupportMethod": "sni-only"
+            "IamCertificateId": {
+              "Fn::If": [
+                "UseCustomSSLCertificate",
+                {"Ref": "IAMCertificateId"},
+                {"Ref": "AWS::NoValue"}
+              ]
+            },
+            "MinimumProtocolVersion": {
+              "Fn::If": [
+                "UseCustomSSLCertificate",
+                "TLSv1",
+                {"Ref": "AWS::NoValue"}
+              ]
+            },
+            "SslSupportMethod": {
+              "Fn::If": [
+                "UseCustomSSLCertificate",
+                "sni-only",
+                {"Ref": "AWS::NoValue"}
+              ]
+            }
           }
         }
       }
