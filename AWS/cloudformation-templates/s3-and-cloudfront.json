@@ -216,7 +216,7 @@
         "Path": "/deploy/",
         "Policies": [{
           "PolicyName": {
-            "Fn::Join": ["", ["S3-RW-", {"Ref":"S3Bucket"}]]
+            "Fn::Join": ["", ["APP-ACCESS-TO-S3-RW-", {"Ref":"S3Bucket"}]]
           },
           "PolicyDocument": {
             "Version": "2012-10-17",
@@ -228,6 +228,10 @@
               "Action": ["s3:ListBucket"],
               "Effect": "Allow",
               "Resource": { "Fn::Join": ["", ["arn:aws:s3:::", { "Ref": "S3Bucket" }]]}
+            }, {
+              "Action": ["cloudfront:CreateInvalidation"],
+              "Effect": "Allow",
+              "Resource": "*"
             }]
           }
         }]
