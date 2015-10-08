@@ -69,7 +69,7 @@
     },
     "CreateInvalidationAccount": {
       "Fn::Equals": [{"Ref": "InvalidationAccount"}, "true"]
-    },
+    }
   },
 
   "Resources": {
