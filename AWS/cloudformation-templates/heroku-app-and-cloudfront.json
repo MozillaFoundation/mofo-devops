@@ -190,6 +190,20 @@
         "Fn::GetAtt": [ "Cloudfront", "DomainName" ]
       },
       "Description": "URL for Cloudfront distribution"
+    },
+    "InvalidationAccessId": {
+      "Value": {
+        "Ref": "DeployAccessKeys"
+      },
+      "Condition": "CreateInvalidationAccount",
+      "Description": "AWS Access ID"
+    },
+    "InvalidationSecretKey": {
+      "Value": {
+        "Fn::GetAtt": ["DeployAccessKeys", "SecretAccessKey"]
+      },
+      "Condition": "CreateInvalidationAccount",
+      "Description": "AWS Secret Key"
     }
   }
 }
