@@ -19,6 +19,12 @@
     "LogBucketName": {
       "Type": "String",
       "Description": "S3 bucket to deliver access logs to"
+    },
+    "InvalidationAccount": {
+      "Type": "String",
+      "AllowedValues": ["true", "false"],
+      "Default": "false",
+      "Description": "IAM user with permissions to invalidate CloudFront's edge cache"
     }
   },
 
@@ -60,7 +66,10 @@
     },
     "UseCustomSSLCertificate": {
       "Fn::Not": [{"Fn::Equals": [{"Ref": "IAMCertificateId"}, ""]}]
-    }
+    },
+    "CreateInvalidationAccount": {
+      "Fn::Equals": [{"Ref": "InvalidationAccount"}, "true"]
+    },
   },
 
   "Resources": {
@@ -143,6 +152,33 @@
               ]
             }
           }
+        }
+      }
+    },
+    "InvalidationUser": {
+      "Type": "AWS::IAM::User",
+      "Condition": "CreateInvalidationAccount",
+      "Properties": {
+        "Path": "/deploy/",
+        "Policies": [{
+          "PolicyName": "APP-ACCESS-TO-CLOUDFRONT",
+          "PolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [{
+              "Action": ["cloudfront:CreateInvalidation"],
+              "Effect": "Allow",
+              "Resource": "*"
+            }]
+          }
+        }]
+      }
+    },
+    "DeployAccessKeys": {
+      "Type": "AWS::IAM::AccessKey",
+      "Condition": "CreateInvalidationAccount",
+      "Properties": {
+        "UserName": {
+          "Ref": "InvalidationUser"
         }
       }
     }
