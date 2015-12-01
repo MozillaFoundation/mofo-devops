@@ -1,0 +1,66 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+
+  "Parameters": {
+    "AWSAccountId": {
+      "Type": "String",
+      "Description": "AWS Account ID allowed to assume this role",
+      "MinLength" : "12",
+      "MaxLength" : "12"
+    }
+  },
+
+  "Resources": {
+    "CrossAccountRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [{
+            "Effect": "Allow",
+            "Principal": {
+              "AWS": {
+                "Fn::Join": ["arn:aws:iam::", {"Ref": "AWSAccountId"}, ":root"]
+              }
+            },
+            "Action": [
+              "sts:AssumeRole"
+            ],
+            "Condition": {
+              "Bool": {
+                "aws:MultiFactorAuthPresent": true
+              }
+            }
+          }]
+        },
+        "ManagedPolicyArns": [
+          "arn:aws:iam::aws:policy/AmazonRDSFullAccess",
+          "arn:aws:iam::aws:policy/AmazonS3FullAccess",
+          "arn:aws:iam::aws:policy/AmazonSQSFullAccess",
+          "arn:aws:iam::aws:policy/ReadOnlyAccess"
+        ],
+        "Policies": [{
+          "PolicyName": "VPCSecurityGroupManagement",
+          "PolicyDocument": {
+            "Version" : "2012-10-17",
+            "Statement": [{
+              "Effect": "Allow",
+              "Action": [
+                "ec2:AuthorizeSecurityGroupEgress",
+                "ec2:AuthorizeSecurityGroupIngress",
+                "ec2:RevokeSecurityGroupEgress",
+                "ec2:RevokeSecurityGroupIngress"
+              ],
+              "Resource": "*"
+            }]
+          }
+        }]
+      }
+    }
+  },
+  "Outputs": {
+    "ARN": {
+      "Description": "ARN for cross account Developer role",
+      "Value": { "Fn::GetAtt": ["CrossAccountRole", "Arn"] }
+    }
+  }
+}

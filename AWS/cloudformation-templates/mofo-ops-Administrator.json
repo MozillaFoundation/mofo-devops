@@ -1,0 +1,48 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+
+  "Parameters": {
+    "AWSAccountId": {
+      "Type": "String",
+      "Description": "AWS Account ID allowed to assume this role",
+      "MinLength" : "12",
+      "MaxLength" : "12"
+    }
+  },
+
+  "Resources": {
+    "CrossAccountRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [{
+            "Effect": "Allow",
+            "Principal": {
+              "AWS": {
+                "Fn::Join": ["arn:aws:iam::", {"Ref": "AWSAccountId"}, ":root"]
+              }
+            },
+            "Action": [
+              "sts:AssumeRole"
+            ],
+            "Condition": {
+              "Bool": {
+                "aws:MultiFactorAuthPresent": true
+              }
+            }
+          }]
+        },
+        "ManagedPolicyArns": [
+          "arn:aws:iam::aws:policy/AdministratorAccess"
+        ]
+      }
+    }
+  },
+
+  "Outputs": {
+    "ARN": {
+      "Description": "ARN for cross account Administrator role",
+      "Value": { "Fn::GetAtt": ["CrossAccountRole", "Arn"] }
+    }
+  }
+}
