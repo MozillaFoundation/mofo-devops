@@ -40,3 +40,8 @@ There are five separate accounts in AWS. You can find the details of these accou
 ### The team vault
 
 If you forget, the 1password team vault is "mofos".
+
+### Pager Duty
+
+Installing the Pager Duty app is highly recommended. You can see details of when you're next on-call, what your methods of contact are and set your phone to alert even when the device has notifications muted. You can do this in settings of pager duty.
+
