@@ -12,8 +12,11 @@ if [ "$#" -lt 1 ]; then
 fi
 
 domain=$1
+directory=`echo $domain | sed -e 's/*\.//g'`
 filename=`echo $domain | sed -e 's/\./_/g' -e 's/*/wildcard/g'`
 
+mkdir "$directory"
+cd "$directory"
 openssl req -new -newkey rsa:2048 -nodes \
   -out $filename.csr \
   -keyout $filename.key \
