@@ -36,3 +36,7 @@ blog.webmaker.org.	56	IN	A	23.23.168.90
 ```
 
 There are five separate accounts in AWS. You can find the details of these accounts in our 1Password team vault.
+
+### The team vault
+
+If you forget, the 1password team vault is "mofos".
