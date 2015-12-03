@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o nounset
+set -o pipefail
+#set -o xtrace
+
+certificate_name=$(basename $(pwd))
+upload_date=$(date +%Y-%m-%d)
+certificate_body=$(find . -name '*.crt' -and ! '(' -name 'DigiCertCA.crt' ')')
+private_key=$(ls *.key)
+certificate_chain="DigiCertCA.crt"
+
+echo \
+aws iam upload-server-certificate \
+  --path "/cloudfront/" \
+  --server-certificate-name "$certificate_name-$upload_date" \
+  --certificate-body "file://$certificate_body" \
+  --private-key "file://$private_key" \
+  --certificate-chain "file://$certificate_chain"
+
+echo "to $(aws iam list-account-aliases --output text --query AccountAliases)"
+
+read -p "Do you want to upload this ssl certificate? (y/n) "
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+  aws iam upload-server-certificate \
+    --path "/cloudfront/" \
+    --server-certificate-name "$certificate_name-$upload_date" \
+    --certificate-body "file://$certificate_body" \
+    --private-key "file://$private_key" \
+    --certificate-chain "file://$certificate_chain"
+fi

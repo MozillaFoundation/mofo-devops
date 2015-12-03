@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o nounset
+set -o pipefail
+#set -o xtrace
+
+if [ "$#" -lt 1 ]; then
+  echo "error: no domain name provided"
+  echo "usage: $0 domain-name"
+  exit 1
+fi
+
+domain=$1
+filename=`echo $domain | sed -e 's/\./_/g' -e 's/*/wildcard/g'`
+
+openssl req -new -newkey rsa:2048 -nodes \
+  -out $filename.csr \
+  -keyout $filename.key \
+  -subj "/C=US/ST=California/L=Mountain View/O=Mozilla Foundation/CN=$domain"

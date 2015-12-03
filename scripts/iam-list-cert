@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o nounset
+set -o pipefail
+#set -o xtrace
+
+aws iam list-server-certificates \
+  --output table \
+  --query 'ServerCertificateMetadataList[*].[Expiration,ServerCertificateName,ServerCertificateId]' \
+  | sort
