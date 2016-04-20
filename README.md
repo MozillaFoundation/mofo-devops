@@ -37,11 +37,27 @@ blog.webmaker.org.	56	IN	A	23.23.168.90
 
 There are five separate accounts in AWS. You can find the details of these accounts in our 1Password team vault.
 
-### The team vault
+### Creating new Third-party Service Accounts
+
+Here are the steps for registering a new service:
+
+1. Get approval from Simon
+2. If it stores *any* user data, launch a vendor security review
+3. Create the master *and* billing account to use our devops email address.
+4. Enter the credentials in our Team Vault (see below)
+5. If we pay for the service, to ensure that accounting gets the billing receipts, make sure they show up in gmail with any of the following filters:
+  * `"billing"`
+  * `"invoice"`
+  * `"has:attachment"`
+  * `"statement"`
+  * `"receipt"`
+
+### The Team Vault
 
 If you forget, the 1password team vault is "mofos".
 
 ### Pager Duty
 
 Installing the Pager Duty app is highly recommended. You can see details of when you're next on-call, what your methods of contact are and set your phone to alert even when the device has notifications muted. You can do this in settings of pager duty.
+
 
