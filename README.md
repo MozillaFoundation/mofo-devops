@@ -61,3 +61,6 @@ If you forget, the 1password team vault is "mofos".
 Installing the Pager Duty app is highly recommended. You can see details of when you're next on-call, what your methods of contact are and set your phone to alert even when the device has notifications muted. You can do this in settings of pager duty.
 
 
+### SSL Certificates
+
+In order to ease the certificate renewal process in the future, all certificates should be set to expire on or Around May 1st of the next year.  The exception here is when a certificate will expire in an unusually short amount of time. For example, if `example.org` is up for renwal in September of 2016, we should instead renew it so it expires in May of 2018, instead of paying for a cert thats only valid for 8 months.
