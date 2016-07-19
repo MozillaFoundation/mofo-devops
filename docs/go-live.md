@@ -13,7 +13,7 @@ Make use of this checklist when evaluating a new website or feature for secure p
   - [ ] Does it have dependencies with known security vulnerabilities? (nsp, OWASP dependency-check)
 - [ ] Does the system/site have adequate automated testing?
 - [ ] Is there a contributors.json file present in the source repository, does it provide contact information in the event of an emergency?
-- [ ] If automatically deploys, Who can trigger deploys? Should it be limited? (branch/merge protection)
+- [ ] If automatically deployed, who can trigger deploys? Should deployment permission be limited? (branch/merge protection)
 - [ ] Data Storage
   - [ ] Automatic Backups
   - [ ] Not publicly accessible AND/OR Strong Access credentials
