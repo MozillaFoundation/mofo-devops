@@ -1,6 +1,8 @@
 # mofo-devops
 Mozilla Foundation DevOps Plans, Issues, Discussions
 
+[![](https://raw.githubusercontent.com/ZenHubIO/support/master/zenhub-badge.png)](https://zenhub.com)
+
 ## On-Call Emergencies:
 
 ### Current status of all the things:
