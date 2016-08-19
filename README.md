@@ -5,6 +5,10 @@ Mozilla Foundation DevOps Plans, Issues, Discussions
 
 ## On-Call Emergencies:
 
+### Reporting an emergency
+
+From a `mozilla.com` or `mozillafoundation.org` email address, send a detailed description of the error to [emergency@mozillafoundation.org](mailto:emergency@mozillafoundation.org) to alert the on-call engineer. **The on-call engineer will respond to issues 24/7 so don't feel bad about reporting issues after hours!**
+
 ### Current status of all the things:
 
 http://stats.pingdom.com/58vz4fvae745
