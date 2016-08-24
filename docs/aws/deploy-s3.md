@@ -21,9 +21,9 @@ This document explains how to setup an application that does not need a server t
   2. Select "Add Bucket Policy" and click on the "AWS Policy Generator" link in the bottom-left corner. This will open a new window/tab with the Policy Generator page.
   3. In the Policy Generator page:
     1. Select the "Policy Type" as "S3 Bucket Policy". 
-    2. Set the "Principal" to "*"(without quotes) to allow access to all the content in the bucket. 
-    3. For the "Action", you will need to at least select the "GetObject" permission. If you want to allow uploads to the S3 bucket from anywhere outside AWS, you should also enable the "PutObject" permission.
-    4. For the "ARN" set it to your bucket ARN which will look something like `arn:aws:s3:::<bucket_name>`
+    2. Set the "Principal" based on who you would like to allow access to the bucket. Set it to "*" (without quotes) to allow access to everyone.
+    3. For the "Action", you will need to at least select the "GetObject" permission. If you want to allow uploads to the S3 bucket from anywhere outside AWS, you should also enable the "PutObject" permission. _CAUTION: Do not set the "Principal" as "*" if you are enabling the "PutObject" option. If you need to allow uploading content to the bucket, only allow the "GetObject" action on the bucket, create an IAM user, generate a policy that allows "PutObject" for that user, and use its secret key to upload content._
+    4. For the "ARN" set it to your bucket ARN which will look something like `arn:aws:s3:::<bucket_name>/*`
     5. Click on "Add Statement" and then "Generate Policy". A JSON document is created for you. Copy the text from there.
   4. Paste the JSON permission object into the text area back in the "Add Bucket Policy" dialog in the previous page and click "Save".
   5. Verify that you can now access the bucket's content by using the url seen in the "Static Website Hosting" section.
@@ -32,7 +32,7 @@ This document explains how to setup an application that does not need a server t
 ### Setting up a CloudFront distribution
 Once you have your S3 bucket set up, you need to add a CloudFront CDN to serve the bucket's content effectively. The steps for doing so are as follows:
 
-1. __Role__: Before proceeding, make sure you switch to the appropriate role so that the role used for CloudFront is the same as the role in which the SSL certificate you would like to use exists.
+1. __Role__: Before proceeding, make sure you switch to the appropriate role so that the CloudFront distribution being created is in the same account which contains the SSL certificate you would like to use.
 2. __Create distribution__: Select "Create Distribution" from the CloudFront page and then select "Get Started" under the "Web" section as the delivery method.
 3. __Configuration__: Fill out the fields as follows:
   1. The "Origin Domain Name" will be the publicly accessible url for the S3 bucket created above.
