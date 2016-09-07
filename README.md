@@ -72,5 +72,5 @@ Installing the Pager Duty app is highly recommended. You can see details of when
 
 ### Zenhub
 
-[See the Wiki article](https://github.com/mozillafoundation/mofo-devops/wiki/Zenhub)
+[See the docs](docs/zenhub.md)
 
