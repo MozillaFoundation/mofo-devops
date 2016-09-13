@@ -67,6 +67,10 @@ Here are the steps for registering a new service:
   * `"statement"`
   * `"receipt"`
 
+### Deployment
+
+[Read about deployment standards and practices that we follow](docs/deployment-standards.md)
+
 ### The Team Vault
 
 If you forget, the 1password team vault is "mofos".
