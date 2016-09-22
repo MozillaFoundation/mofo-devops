@@ -16,7 +16,7 @@ Things to note:
 
 ### Current status of all the things:
 
-http://stats.pingdom.com/58vz4fvae745
+http://status.mozillafoundation.org/
 
 ### How to find the thing that's alerting:
 
