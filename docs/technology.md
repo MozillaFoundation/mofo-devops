@@ -1,5 +1,7 @@
 When starting a new project, use the technologies listed on this page. In cases where your project might require something not listed here, [file an issue](https://github.com/MozillaFoundation/mofo-devops/issues/new) to begin a discussion on the topic.
 
+Where possible, we develop apps for deployment on Heroku. Static sites will be hosted on S3 and served through CloudFront.
+
 ## Platforms/Languages
 
 * Django 10.x (Python 3.x)
@@ -19,3 +21,6 @@ There are a few exceptions:
 
 If the app requires any of the above three services, [file an issue](https://github.com/MozillaFoundation/mofo-devops/issues/new) to get it set up! 
 
+## Continuous Integration
+
+Our CI of choice is [Travis CI](https://travis-ci.org/).
