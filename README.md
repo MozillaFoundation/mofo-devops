@@ -14,6 +14,10 @@ Things to note:
 1. Do not email this address unless there is immediate action that needs to be taken by the on-call engineer. This email is not for simply making them aware of an issue they're not responsible for fixing.
 2. This email address is **not** meant to be cc'd on email threads, as it will generate a new incident report for every response to the thread. **Please only email it once per incident, that's all that is required**
 
+### Incident response plan
+
+Our Incident response plan for Stripe, Paypal and 1Password can be accessed by employees [at this link](https://docs.google.com/a/mozilla.com/document/d/1AVSqG1WfQNTyvyOQAXwrHjT6JQwRjk0AFnJzUbS7Hxg/edit?usp=sharing)
+
 ### Current status of all the things:
 
 http://status.mozillafoundation.org/
