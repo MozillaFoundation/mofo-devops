@@ -58,7 +58,7 @@ There are five separate accounts in AWS. You can find the details of these accou
 
 ### Go-live Checklist
 
-[Use the Go-live checklist](docs/go-live.md) when evaluating a new website or new functionality for secure practices. 
+[Use the Go-live checklist](docs/go-live.md) when evaluating a new website or new functionality for secure practices.
 
 ### Creating new Third-party Service Accounts
 
@@ -83,9 +83,9 @@ Here are the steps for registering a new service:
 
 If you forget, the 1password team vault is "mofos".
 
-### Pager Duty
+### VictorOps
 
-Installing the Pager Duty app is highly recommended. You can see details of when you're next on-call, what your methods of contact are and set your phone to alert even when the device has notifications muted. You can do this in settings of pager duty.
+Installing the VictorOps app is highly recommended. You can see details of when you're next on-call, what your methods of contact are and set your phone to alert even when the device has notifications muted.
 
 ### Zenhub
 
