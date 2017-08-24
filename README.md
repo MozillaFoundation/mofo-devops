@@ -83,6 +83,10 @@ Here are the steps for registering a new service:
 
 If you forget, the 1password team vault is "mofos".
 
+### Database Migrations
+
+[Follow the migration checklist](docs/migrations.md)
+
 ### VictorOps
 
 Installing the VictorOps app is highly recommended. You can see details of when you're next on-call, what your methods of contact are and set your phone to alert even when the device has notifications muted.
