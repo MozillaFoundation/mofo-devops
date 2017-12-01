@@ -23,6 +23,10 @@ This bot needs 3 steps:
 ```python
 from collections import defaultdict
 
+# check for empty input
+if !input_data['related_creators']:
+    return [{"Creators": ''}]
+
 # Input_data is a string ("id: 2\n name: Puppy\n") so we need to prepare it.
 related_creators = input_data['related_creators'].split('\n')
 
