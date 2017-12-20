@@ -9,6 +9,10 @@ Mozilla Foundation DevOps Plans, Issues, Discussions
 
 From a `mozilla.com` or `mozillafoundation.org` email address, send a detailed description of the error to [emergency@mozillafoundation.org](mailto:emergency@mozillafoundation.org) to alert the on-call engineer. **The on-call engineer will respond to issues 24/7 so don't feel bad about reporting issues after hours!**
 
+#### donate.mozilla.org
+
+We have a separate schedule for the on-call rotation of donate.mozilla.org, to route email emergencies directly to the on-call engineer for the donation site, add `[DONATE]` to the subject of your email.
+
 Things to note:
 
 1. Do not email this address unless there is immediate action that needs to be taken by the on-call engineer. This email is not for simply making them aware of an issue they're not responsible for fixing.
