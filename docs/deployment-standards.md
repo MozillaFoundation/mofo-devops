@@ -22,6 +22,4 @@ For static apps deployed on AWS S3 that break, revert the bad commit and re-depl
 
 ## Notifications
 
-Deployment notifications can be found for most apps in the 'Github Feed' Mattermost channel on https://chat.mozillafoundation.org/mozilla 
-
-If you'd like deployment notifications for an application to be added to that channel, or another channel, contact 'cade' on Mattermost with your request.
+Deployment notifications can be found for most apps in the #mofo-devops channel on the Mozilla Slack workspace
