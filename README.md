@@ -1,8 +1,6 @@
 # mofo-devops
 Mozilla Foundation DevOps Plans, Issues, Discussions
 
-[![](https://raw.githubusercontent.com/ZenHubIO/support/master/zenhub-badge.png)](https://zenhub.com)
-
 ## On-Call Emergencies:
 
 ### Reporting an emergency ---- [USE THIS EMAIL TEMPLATE WHEN REPORTING AN EMERGENCY](docs/emergency-template.md)
