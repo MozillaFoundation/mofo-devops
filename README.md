@@ -66,7 +66,7 @@ There are five separate accounts in AWS. You can find the details of these accou
 
 Here are the steps for registering a new service:
 
-1. Get approval from Simon
+1. Get approval from Alan
 2. If it stores *any* user data, launch a vendor security review
 3. Create the master *and* billing account to use our devops email address.
 4. Enter the credentials in our Team Vault (see below)
