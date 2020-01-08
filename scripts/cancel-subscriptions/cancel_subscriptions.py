@@ -2,14 +2,17 @@ import sys
 import argparse
 from csv import DictReader, DictWriter
 import stripe
-import paypalrestsdk
+from paypalrestsdk import (
+    BillingAgreement,
+    ResourceNotFound
+)
 
 parser = argparse.ArgumentParser()
 
 parser.add_argument(
     '--subscription-type',
     help='The type of subscriptions being cancelled',
-    choices=['stripe', 'paypal']
+    choices=['stripe', 'paypal'],
     required=True,
     dest='type'
 )
@@ -36,15 +39,15 @@ def cancel_all_subscriptions(filename):
     ids = load_ids(filename)
 
     # use the selected cancellation strategy
-    cancellation_strategy = cancel_stripe_subscription if args.type is 'stripe' else cancel_paypal_billing_agreement
+    cancellation_strategy = cancel_stripe_subscription if args.type == 'stripe' else cancel_paypal_billing_agreement
 
     print(f'Cancelling {len(ids)} subscriptions...')
     for id in ids:
         cancellation_strategy(id)
 
     if len(failed_transactions) > 0:
-        print(f'{len(failed_transactions)} failed to cancel, outputting to {filename}-errors.csv')
-        write_errors(failed_transactions, f'{filename}-errors.csv')
+        print(f'{len(failed_transactions)} failed to cancel, outputting to {args.type}-errors.csv')
+        write_errors(failed_transactions, f'{args.type}-errors.csv')
         exit(1)
 
     print('Successfully cancelled all subscriptions!')
@@ -55,22 +58,22 @@ def cancel_stripe_subscription(subscription_id):
     try:
         canceled = stripe.Subscription.delete(subscription_id)
 
-        if not canceled or canceled.status is not 'canceled':
+        if not canceled or canceled.status != 'canceled':
             failed_transactions.append(subscription_id)
 
     except (stripe.error.StripeError, Exception) as e:
         failed_transactions.append(subscription_id)
-        print(f'Failed to cancel subscription f{subscription_id}. Error: ${e}')
+        print(f'Failed to cancel subscription f{subscription_id}. Error: {e}')
 
 # Cancel the given Paypal Billing Agreement using its ID
 def cancel_paypal_billing_agreement(billing_agreement_id):
     try:
-        billing_agreement = paypalrestsdk.Payments.BillingAgreement.find(billing_agreement_id)
+        billing_agreement = BillingAgreement.find(billing_agreement_id)
         cancel_note = {'note': 'MZLA migration'}
 
         if not billing_agreement.cancel(cancel_note):
             failed_transactions.append(billing_agreement_id)
-            print(f'Failed to cancel Billing Agreement ${billing_agreement_id}. Error: ${billing_agreement.error}')
+            print(f'Failed to cancel Billing Agreement {billing_agreement_id}. Error: ${billing_agreement.error}')
 
     except ResourceNotFound as error:
         failed_transactions.append(billing_agreement_id)
@@ -78,27 +81,28 @@ def cancel_paypal_billing_agreement(billing_agreement_id):
 
 # Open the CSV file and read in all the ids
 def load_ids(filename):
-    with open(filename, 'rb') as csv_file:
+    ids = []
+
+    with open(filename, 'r') as csv_file:
         reader = DictReader(csv_file)
-        ids = []
         row_name = ''
 
-        if args.type is 'stripe':
-            row_name = 'subscription_id'
+        if args.type == 'stripe':
+            row_name = 'PMT Subscription ID'
         else:
             row_name = 'Reference Txn ID'
 
         for row in reader:
-            ids.append(row[row_name]
+            ids.append(row[row_name])
 
-        return ids
+    return ids
 
 # output any failed subscription cancellations to errors.csv
 def write_errors(ids, filename):
     field_name = 'ids'
 
     with open(filename, 'w') as csv_file:
-        writer = DictWriter(csv_file, fieldname=[field_name])
+        writer = DictWriter(csv_file, fieldnames=[field_name])
         writer.writeheader()
 
         for id in ids:
@@ -106,7 +110,7 @@ def write_errors(ids, filename):
 
 if __name__ == '__main__':
 
-    if args.type is 'stripe'
+    if args.type == 'stripe':
         if not args.stripe_key:
             print('please provide a Stripe API key with --stripe-key')
             exit(1)

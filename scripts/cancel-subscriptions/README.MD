@@ -9,7 +9,7 @@ Stripe:
 ```
 source ./venv/bin/activate
 pip install -r requirements.txt
-python cancel_subscriptions.py --subscription-type stripe --stripe-key {key} --filename {filename}
+python cancel_subscriptions.py --subscription-type stripe --stripe-key {key} --csv-filename {filename}
 ```
 
 Paypal:
@@ -22,5 +22,5 @@ export PAYPAL_MODE=sandbox   # sandbox or live
 export PAYPAL_CLIENT_ID=your-client-id
 export PAYPAL_CLIENT_SECRET=your-client-secret
 
-python cancel_subscriptions.py --subscription-type paypal --filename {filename}
+python cancel_subscriptions.py --subscription-type paypal --csv-filename {filename}
 ```
