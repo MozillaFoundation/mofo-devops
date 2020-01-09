@@ -71,13 +71,20 @@ def cancel_paypal_billing_agreement(billing_agreement_id):
         billing_agreement = BillingAgreement.find(billing_agreement_id)
         cancel_note = {'note': 'MZLA migration'}
 
-        if not billing_agreement.cancel(cancel_note):
+        if not billing_agreement.id:
+            print(f'The Billing Agreement {billing_agreement_id} was not found.')
+
+        elif billing_agreement.state not in ['Active', 'Suspended']:
             failed_transactions.append(billing_agreement_id)
-            print(f'Failed to cancel Billing Agreement {billing_agreement_id}. Error: ${billing_agreement.error}')
+            print(f'Did not cancel Billing Agreement {billing_agreement_id} because it is not Active or Suspended')
+
+        elif not billing_agreement.cancel(cancel_note):
+            failed_transactions.append(billing_agreement_id)
+            print(f'Failed to cancel Billing Agreement {billing_agreement_id}. Error: {billing_agreement.error["message"]}')
 
     except ResourceNotFound as error:
         failed_transactions.append(billing_agreement_id)
-        print(f'Failed to find Billing Agreement ${billing_agreement_id}.')
+        print(f'Failed to find Billing Agreement {billing_agreement_id}.')
 
 # Open the CSV file and read in all the ids
 def load_ids(filename):
