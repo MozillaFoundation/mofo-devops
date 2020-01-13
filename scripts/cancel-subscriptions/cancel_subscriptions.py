@@ -63,7 +63,7 @@ def cancel_stripe_subscription(subscription_id):
 
     except (stripe.error.StripeError, Exception) as e:
         failed_transactions.append(subscription_id)
-        print(f'Failed to cancel subscription f{subscription_id}. Error: {e}')
+        print(f'Failed to cancel subscription {subscription_id}. Error: {e}')
 
 # Cancel the given Paypal Billing Agreement using its ID
 def cancel_paypal_billing_agreement(billing_agreement_id):
