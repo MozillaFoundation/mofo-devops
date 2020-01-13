@@ -1,7 +1,7 @@
 cancel_subscriptions.py
 -----------------------
 
-This script reads in a list of subscription IDs from a CSV file and cancels them using the correct REST APIs. If a sucscription fails to be cancelled for any reason it is output to `{filename}-errors.csv`.
+This script reads in a list of subscription IDs from a CSV file and cancels them using the correct REST APIs. If a sucscription fails to be cancelled for any reason it is output to `{subscription_type}-errors.csv`.
 
 How to run:
 -----------
