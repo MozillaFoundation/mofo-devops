@@ -2,17 +2,11 @@
 
 ## Who
 
-As detailed in the [Mofo Standards documentation about Github Flow](https://github.com/MozillaFoundation/mofo-standards#github-flow), anyone with permissions to merge code in one of our repos can deploy to staging. For production deployments, you'll need to ask someone on the DevOps team (Chris, Ali, or Gideon) to deploy or ask them to grant you permissions to deploy.
+Anyone with permissions to merge code in one of our repos can deploy to staging and production. Master is automatically deployed to staging, but production requires doing a manual `promote to prod`.
 
 ## When
 
-Deployment should never happen:
-
-1. At the end of a work day or after-hours
-2. On a Friday
-3. On a weekend
-
-... Unless circumstances require it. For example, to fix a crash bug after-hours.
+You should never be afraid of deploying: things break and that's okay! If you never did a rollback and think you will need assistance to do it, avoid deploying when less people are around (end of a work day or after-hours, Fridays, or weekends)... Unless circumstances require it. For example, to fix a crash bug after-hours.
 
 ## Failed Deployments and Rollbacks
 
