@@ -15,6 +15,9 @@ The fastest way to alert the on-call engineer is to post a message in the `mofo-
 
 `@here [SERVICE or WEBISTE] is having [DESCRIPTION OF THE ISSUE] since [TIME]`. Feel free to add screenshots or anything that you find relevant to the problem.
 
+**Outside of working hour:**
+From a `mozilla.com` or `mozillafoundation.org` email address, send a detailed description of the error to [emergency@mozillafoundation.org](mailto:emergency@mozillafoundation.org) to alert the on-call engineer.
+
 ### Incident response plan
 
 Our Incident response plan for Stripe, Paypal and 1Password can be accessed by employees [at this link](https://docs.google.com/a/mozilla.com/document/d/1AVSqG1WfQNTyvyOQAXwrHjT6JQwRjk0AFnJzUbS7Hxg/edit?usp=sharing)
