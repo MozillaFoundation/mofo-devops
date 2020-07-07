@@ -7,7 +7,7 @@ This and other comments like it will not appear in the issue you submit
 
 If you think this issue contains SENSITIVE, PRVIATE or SECURITY-related information: Please email devops@mozillafoundation.org instead of filing an issue.
 
-IF THIS IS AN EMERGENCY (i.e. donation website down!), please send an email to emergency@mozillafoundation.org from a "mozillafoundation.org" or "mozilla.com" email address to alert the on-call engineer.
+IF THIS IS AN EMERGENCY (i.e. donation website down!), please send an email to emergency@mozillafoundation.org from a "mozillafoundation.org" or "mozilla.com" email address to alert the on-call engineer. During working hours, you can also send a message in the `mofo-devops` Slack channel.
 -->
 
 ### Details

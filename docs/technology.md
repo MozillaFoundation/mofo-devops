@@ -4,8 +4,12 @@ Where possible, we develop apps for deployment on Heroku. Static sites will be h
 
 ## Platforms/Languages
 
-* Django 10.x (Python 3.x)
+* Django 2.2 LTS (Python 3.x)
 * NodeJS LTS (JavaScript)
+
+## Developers' tooling
+
+Try to use `Docker`, `pip-tools`, and `Invoke` when setting up a new Python codebase: it helps standardise dev environments across projects.
 
 ## Preferred Add-ons
 
