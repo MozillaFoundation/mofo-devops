@@ -22,10 +22,6 @@ From a `mozilla.com` or `mozillafoundation.org` email address, send a detailed d
 
 Our Incident response plan for Stripe, Paypal and 1Password can be accessed by employees [at this link](https://docs.google.com/a/mozilla.com/document/d/1AVSqG1WfQNTyvyOQAXwrHjT6JQwRjk0AFnJzUbS7Hxg/edit?usp=sharing)
 
-### Current status of all the things:
-
-http://status.mozillafoundation.org/
-
 ### Tech Stack
 
 [Read about the technologies we develop with here on the Foundation engineering team](docs/technology.md)
