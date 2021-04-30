@@ -10,4 +10,4 @@ pyOpenSSL==19.1.0
 requests==2.22.0
 six==1.13.0
 stripe==2.41.0
-urllib3==1.25.7
+urllib3==1.25.8
