@@ -30,6 +30,11 @@ Our Incident response plan for Stripe, Paypal and 1Password can be accessed by e
 
 [Use the Go-live checklist](docs/go-live.md) when evaluating a new website or new functionality for secure practices.
 
+### Issue Completion Checklist
+
+[Use the ticket definition of done checklist](docs/ticket-definition-of-done.md) for reference while creating/working on a ticket and before you mark it as "Complete". 
+
+
 ### Creating new Third-party Service Accounts
 
 Here are the steps for registering a new service:
